@@ -4996,6 +4996,60 @@ css
     corner-shape: squircle
   }
 }
+/* scroll-down cue: phones only */
+.scrollcue { display: none }
+
+@media (max-width: 820px) {
+  .scrollcue {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    z-index: 45;            /* under the envelope (50), so it stays hidden until the envelope opens */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    pointer-events: none;
+    opacity: 0;
+    animation: scin .8s ease 6s forwards   /* appears 6s after the page loads */
+  }
+
+  .scrollcue.gone { animation: scout .3s ease forwards }
+
+  .scrollcue span {
+    margin-bottom: 4px;
+    font-size: .68rem;
+    letter-spacing: .38em;
+    padding-left: .38em;
+    color: var(--gold2);
+    text-shadow: 0 0 10px var(--gold)
+  }
+
+  .scrollcue i {
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin-top: -5px;
+    border-right: 2px solid var(--gold2);
+    border-bottom: 2px solid var(--gold2);
+    transform: rotate(45deg);
+    opacity: 0;
+    filter: drop-shadow(0 0 4px var(--gold));
+    animation: scdown 1.8s ease-in-out infinite
+  }
+
+  .scrollcue i:nth-of-type(2) { animation-delay: .25s }
+  .scrollcue i:nth-of-type(3) { animation-delay: .5s }
+}
+
+@keyframes scin { to { opacity: 1 } }
+@keyframes scout { from { opacity: 1 } to { opacity: 0 } }
+@keyframes scdown {
+  0%   { opacity: 0; translate: 0 -6px }
+  40%  { opacity: 1 }
+  100% { opacity: 0; translate: 0 8px }
+}
   </style>
 </head>
 
@@ -5419,7 +5473,14 @@ css
     <div class="fin-names">Abhinandh &amp; Riya</div>
     <div class="gline fin-line"></div>
     <div class="fin-date">12 December 2026</div>
+ 
   </footer>
+     <!-- scroll-down cue (phones only) -->
+<div class="scrollcue" aria-hidden="true">
+  <span>SCROLL DOWN</span>
+  <i></i><i></i><i></i>
+</div>
+
 
   <script>
     /* ===== SETTINGS ===== */
@@ -6007,7 +6068,20 @@ css
         }, { threshold: [0, .4] }).observe(foot);
       } catch (e) { }
     })();
-
+/* hide the scroll cue once the guest starts scrolling */
+(function () {
+  var c = document.querySelector('.scrollcue'); if (!c) return;
+  function u() { c.classList.toggle('gone', scrollY > 40) }
+  addEventListener('scroll', u, { passive: true }); u();
+})();
+/* hide the scroll cue for good once the guest starts scrolling */
+(function () {
+  var c = document.querySelector('.scrollcue'); if (!c) return;
+  function u() {
+    if (scrollY > 40) { c.classList.add('gone'); removeEventListener('scroll', u); }
+  }
+  addEventListener('scroll', u, { passive: true });
+})();
   </script>
 
 </body>
