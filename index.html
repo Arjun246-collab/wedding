@@ -5018,6 +5018,26 @@
   pointer-events: none;
   transition: opacity .2s ease, visibility 0s .2s
 }
+
+/* contact section: use the same fonts as the rest of the page */
+.cp-cap small,
+.cp-num small,
+.cp-hint {
+  font-family: var(--serif);
+  font-weight: 600
+}
+
+.cp-cap small { font-size: calc(var(--cw) * .06) }
+.cp-num small { font-size: max(9px, calc(var(--cw) * .052)) }
+.cp-hint      { font-size: .8rem }
+
+.cp-num em {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: max(14px, calc(var(--cw) * .1));
+  letter-spacing: .06em;
+  font-variant-numeric: lining-nums tabular-nums
+}
   </style>
 </head>
 
