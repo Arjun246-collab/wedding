@@ -5504,8 +5504,9 @@
 
 
   <script>
+
     /* ===== SETTINGS ===== */
-    var MUSIC_VOLUME = 0.6;   // 0 to 1
+    var MUSIC_VOLUME = 0.16;   // 0 to 1
     /* ==================== */
     function safe(fn) { try { fn() } catch (e) { console.warn(e) } }
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -5541,9 +5542,10 @@
       safe(function () { if (playing) { audio.pause(); playing = false; mute.style.opacity = .5 } else { audio.play(); playing = true; mute.style.opacity = 1 } });
     });
     /* Playlist: plays your songs one after another, then starts again from the first one */
-    var PLAYLIST = ['music/song-1.mp3', 'music/song-2.mp3', 'music/song-3.mp3'];   // change to your file names
+   var PLAYLIST = ['Pesamale.mp3'];   // change to your file names
     var track = 0, failed = 0;
     audio.removeAttribute('loop');
+    if (PLAYLIST.length === 1) audio.loop = true;
     audio.src = PLAYLIST[0];
     function nextTrack() {
       track = (track + 1) % PLAYLIST.length;
